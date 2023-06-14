@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    body {
+  overflow: hidden;
+  background-color: greenyellow;
+}
+</style>
+
+<body>
+    <div id="body2">
+        
+
+    <div id="ground" style="height:500px;width:200%;border:burlywood solid 1px;margin-top: 890px;position: absolute; margin-left: -10px;background-color: burlywood;"></div>
+    
+    <div id="rura3" class="2000" style="height:900px;margin-left:2000px;width:50px;margin-top:-10px;position: absolute; background-color: black;"></div>
+    <div id="rura4" class="2400" style="height:900px;margin-left:2400px;width:50px;margin-top:-10px;position: absolute; background-color: black;"></div>
+    <div id="rura5" class="2800" style="height:900px;margin-left:2800px;width:50px;margin-top:-10px;position: absolute; background-color: black;"></div>
+    <div id="rura6" class="3200" style="height:900px;margin-left:3200px;width:50px;margin-top:-10px;position: absolute; background-color: black;"></div>
+    <div id="rura7" class="3600" style="height:900px;margin-left:3600px;width:50px;margin-top:-10px;position: absolute; background-color: black;"></div>
+    <div id="rura1" class="4000" style="height:900px;margin-left:4000px;width:50px;margin-top:-10px;position: absolute; background-color: black;"></div>
+    <div id="rura2" class="4400" style="height:900px;margin-left:4400px;width:50px;margin-top:-10px;position: absolute; background-color: black;"></div>
+
+
+    <div id="gap3"  style="height:300px;margin-left:2000px;width:50px;position: absolute;background-color: greenyellow;"></div>
+    <div id="gap4"  style="height:300px;margin-left:2400px;width:50px;position: absolute;background-color: greenyellow;"></div>
+    <div id="gap5"  style="height:300px;margin-left:2800px;width:50px;position: absolute;background-color: greenyellow;"></div>
+    <div id="gap6"  style="height:300px;margin-left:3200px;width:50px;position: absolute;background-color: greenyellow;"></div>
+    <div id="gap7"  style="height:300px;margin-left:3600px;width:50px;position: absolute;background-color: greenyellow;"></div>
+    <div id="gap1"  style="height:300px;margin-left:4000px;width:50px;position: absolute;background-color: greenyellow;"></div>
+    <div id="gap2"  style="height:300px;margin-left:4400px;width:50px;position: absolute;background-color: greenyellow;"></div>
+
+    <div id="crow" style="width:75px;height:75px;border:black solid 1px;position: absolute;margin-left:10px; background-image: url('crow2.png');"></div>
+    <div id="points" style="color:black;position: absolute; margin-left:1800px; text-align:left">0</div>   
+    <script>
+        
+        height=0;
+        x=0
+        skok=false;
+        mheight=100;
+        grav=0;
+        mocgrav=-0.3;
+        next=3
+        score=0
+        const log=setInterval(logic ,10);
+
+        document.body.addEventListener('keydown',b=>{
+            skok=true;
+            height=0;
+            //console.log("cos3")
+            grav=+11.1;
+            document.getElementById("crow").style.backgroundImage="url('crow1.png')";
+            
+        });
+
+        function logic(){
+            if(x>870-70){
+                death()
+            }
+            if(grav!=-10){
+                grav=grav+mocgrav
+            }
+            gravity();
+            gen();
+            colision();
+            if(skok==true){
+                height+=1
+            }
+           if(height==mheight/2){
+            document.getElementById("crow").style.backgroundImage="url('crow2.png')";
+           }
+            if(height==mheight){
+                height=0;
+                skok=false;
+            }
+        };
+        function gen(){
+            for(i=1;i!=8;i++){
+                num=document.getElementById("rura"+i).className;
+                num=num-5
+                document.getElementById("rura"+i).style.marginLeft=num+"px";
+                document.getElementById("rura"+i).setAttribute('class', num)
+                document.getElementById("gap"+i).style.marginLeft=num+"px";
+                if(num<-100){
+                    document.getElementById("rura"+i).style.marginLeft=2700+"px";
+                    document.getElementById("rura"+i).setAttribute('class', 2700)
+                    if(i+1==8){
+                        next=1
+                    }
+                    else{
+                        next=i+1
+                    }
+                }
+                if(num==1995){
+                    gengap(i)
+                }
+                
+            }
+
+        }
+        function gengap(id){
+            rand=Math.floor(Math.random() * (500- 100)) + 100;
+            document.getElementById("gap"+id).style.marginTop=rand+"px";
+            document.getElementById("gap"+id).setAttribute('class', rand)
+        }   
+        function colision(){
+
+        
+
+            if(document.getElementById("rura"+next).className>-40 && document.getElementById("rura"+next).className<5+75){
+                
+                if(document.getElementById("gap"+next).className<x && x-300+75<document.getElementById("gap"+next).className){
+                    score+=100
+                    document.getElementById("points").innerHTML=score;
+                }
+                else{
+                    console.log(document.getElementById("gap"+next).className)
+                    console.log(x)
+                    death()
+                }
+            }
+        }
+
+        function gravity(){
+            x-=grav;
+            document.getElementById("crow").style.marginTop=x+"px";
+            //console.log("cos")
+        };
+        function death(){
+            console.log("death")
+            clearInterval(log)
+            document.getElementById("crow").style.backgroundImage="url('crow3.png')";
+        
+        }
+        
+    </script>
+    </div>
+</body>
+</html>
